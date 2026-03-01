@@ -42,10 +42,12 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python paper_push.py
 
+      # 核心修改 5：改用专业 Action，它会自动处理冲突重试
       - name: Save seen.json back to repo
-              run: |
-                git config user.name "github-actions[bot]"
-                git config user.email "github-actions[bot]@users.noreply.github.com"
-                git add seen.json
-                git commit -m "chore: update seen.json [skip ci]" || exit 0
-                git push origin main --force
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update seen.json [skip ci]"
+          file_pattern: 'seen.json'
+          # 如果推送失败，它会自动尝试 pull --rebase
+          push_options: '--force' 
+          # 或者不加 force，该 Action 默认也会尝试更智能的提交
