@@ -145,6 +145,9 @@ ABBREV_KEYWORDS = ["TC", "ETC"]  # 缩写关键词
 
 ## 📲 推送效果示例
 
+
+<img width="1994" height="1196" alt="image" src="https://github.com/user-attachments/assets/afa67dea-c045-48c6-8e3a-a5e8e2da2b5e" />
+
 ```
 [论文推送] 2026-03-01：命中 2 篇
 
