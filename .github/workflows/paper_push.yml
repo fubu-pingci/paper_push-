@@ -35,10 +35,12 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python paper_push.py
 
+
       - name: Save seen.json back to repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main
           git add seen.json
           git diff --cached --quiet || git commit -m "chore: update seen.json [skip ci]"
           git push
