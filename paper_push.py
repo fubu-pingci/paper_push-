@@ -34,7 +34,7 @@ PHRASE_KEYWORDS = [
 ABBREV_KEYWORDS = ["TC", "ETC"]
 CO_OCCUR_TERMS = ["cyclone", "typhoon", "hurricane", "storm"]
 
-SEEN_PATH = "seen.json"
+SEEN_PATH = os.path.join(os.path.dirname(os.path.abspath(__file__)), "seen.json")
 
 
 # ===== 3) 工具函数 =====
