@@ -6,10 +6,8 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch: # 允许手动触发，方便测试
 
-# 方案三修改点1：同时添加 contents: write 和 workflows: write 权限
 permissions:
-  contents: write
-  workflows: write
+  contents: write  # 只保留这一个，去掉 workflows: write
 
 jobs:
   push:
@@ -42,12 +40,13 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python paper_push.py
 
-      # 方案三修改点2：用原生 git 命令替代 git-auto-commit-action，推送前先 rebase
       - name: Save seen.json back to repo
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git pull --rebase origin main
+          # 关键：还原工作流文件，确保提交中不包含它
+          git restore .github/workflows/paper_push.yml
           git add seen.json
           git diff --cached --quiet || git commit -m "chore: update seen.json [skip ci]"
           git push
