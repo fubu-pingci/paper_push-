@@ -8,7 +8,6 @@ on:
 # 【核心修改】：增加 workflows: write 权限
 permissions:
   contents: write
-  workflows: write
 
 jobs:
   push:
