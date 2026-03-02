@@ -2,11 +2,9 @@ name: Daily Paper Push
 
 on:
   schedule:
-    # 北京时间 08:00 = UTC 00:00
     - cron: "0 0 * * *"
-  workflow_dispatch: 
+  workflow_dispatch:
 
-# 关键修改 1: 必须显式声明写权限，否则 Actions 无法将代码推送到仓库
 permissions:
   contents: write
 
@@ -18,7 +16,6 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          # 关键修改 2: 建议加上这个，获取所有历史记录，防止 push 失败
           fetch-depth: 0
 
       - name: Set up Python
@@ -29,12 +26,7 @@ jobs:
       - name: Install dependencies
         run: pip install -r requirements.txt
 
-      - name: Restore seen.json cache
-        uses: actions/cache@v4
-        with:
-          path: seen.json
-          key: seen-json-${{ hashFiles('seen.json') }}
-          restore-keys: seen-json-
+      # ❌ 删除了 actions/cache，避免和 git commit 冲突
 
       - name: Run paper push
         env:
@@ -42,12 +34,11 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python paper_push.py
 
-      # 核心修改 5：改用专业 Action，它会自动处理冲突重试
       - name: Save seen.json back to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update seen.json [skip ci]"
           file_pattern: 'seen.json'
-          # 如果推送失败，它会自动尝试 pull --rebase
+
           push_options: '--force' 
           # 或者不加 force，该 Action 默认也会尝试更智能的提交
