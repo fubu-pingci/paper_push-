@@ -39,6 +39,3 @@ jobs:
         with:
           commit_message: "chore: update seen.json [skip ci]"
           file_pattern: 'seen.json'
-
-          push_options: '--force' 
-          # 或者不加 force，该 Action 默认也会尝试更智能的提交
