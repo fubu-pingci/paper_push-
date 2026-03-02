@@ -17,6 +17,8 @@ AMS_RSS_FEEDS = {
     "JAS": "https://journals.ametsoc.org/journalissuetocrss/journals/atsc/atsc-overview.xml",
     "MWR": "https://journals.ametsoc.org/journalissuetocrss/journals/mwre/mwre-overview.xml",
     "WAF": "https://journals.ametsoc.org/journalissuetocrss/journals/wefo/wefo-overview.xml",
+    "AI4ES": "https://journals.ametsoc.org/journalissuetocrss/journals/aies/aies-overview.xml",
+    "AMS": "https://journals.ametsoc.org/journalissuetocrss/journals/bams/bams-overview.xml"
 }
 
 # ===== 2) 关键词 =====
