@@ -5,9 +5,10 @@ on:
     - cron: "0 0 * * *"
   workflow_dispatch: 
 
-# 【关键修改 1】：增加全局写入权限
+# 【核心修改】：增加 workflows: write 权限
 permissions:
   contents: write
+  workflows: write
 
 jobs:
   push:
@@ -17,8 +18,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
         with:
-          # 加上这个防止处于“头指针分离”状态导致 push 失败
-          ref: main
+          fetch-depth: 0 # 拉取所有历史，确保分支同步
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -41,9 +41,9 @@ jobs:
           DEEPSEEK_API_KEY: ${{ secrets.DEEPSEEK_API_KEY }}
         run: python paper_push.py
 
-      # 【关键修改 2】：使用专用 Action 替代手动 git 命令，更安全且自动处理权限冲突
       - name: Save seen.json back to repo
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: "chore: update seen.json [skip ci]"
           file_pattern: 'seen.json'
+          # 【建议】：去掉 push_options: '--force'，让它默认尝试合并推送
